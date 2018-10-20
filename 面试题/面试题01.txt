@@ -1,0 +1,54 @@
+
+1. Hibernate与jdbc的联系
+
+    	hibernate是jdbc的轻量级封装，包括jdbc的与数据库的连接（用hibernate.property的配置文件实现当然本质是封装了jdbc的forname）,和查询，删除等代码，都用面向对象的思想用代码联系起来，hibernate通过hbm 配置文件把po类的字段和数据库的字段关联起来比如数据库的id,在po类中就是pravite Long id; public Long getId() ;public setId(Long id);
+    	然后hql语句也是面向对象的，它的查询语句不是查询数据库而是查询类的,这些实现的魔法就是xml文件，其实hibernate=封装的jdbc+xml文件
+
+
+2.Hibernate与spring的联系
+    	概括的来说spring提供了许多服务 经常用到的比如AOP可以管理事物 核心是IOC控制反转 它可以与许多开源的框架集成在一起 spring主要用于业务逻辑层 能让表示层和持久层更好的协作
+	hibernate是ORM框架 是对象关系模型，可以把对象模型转化为关系模型，以前设计数据库时是面向关系的，通过hibernate你可以用面向对象的思想来设计数据库，这样你可以更方便的来操作数据库，我认为hibernate是个很伟大的ORM框架
+	spring可以和hibernate集成，把session可以交给spring来管理 可以由spring的AOP来管理事物
+
+3. hibernate分页的机制
+	（1）hibernate自带的分页机制：获得Session对象后，从Session中获得Query对象。用Query.setFirstResult()：设置要显示的第一行数据,
+       Query.setMaxResults()：设置要显示的最后一行数据。
+
+	（2）不使用hibernate自带的分页,可采用sql语句分页，
+       如：5:为每页显示的记录,2为当前页：(oracle) select * top 5 from table where tabId not in (select tabId top (2-1)*5 from table);
+	(mysql)select * from table limit 2(起始个数),5(显示个数)
+
+
+4. 创建对象的方式有几种
+
+	四种:
+	1.使用new关键字:最常见的也是最简单的创建对象的方式，通过这种方式我们还可以调用任意的构造函数（无参的和有参的）;
+	2.克隆:调用一个对象的clone方法，jvm就会创建一个新的对象，将前面对象的内容全部拷贝进去。用clone方法创建对象并不会调用任何构造函数,要使用clone方法，我们需要先实现Cloneable接口并实现其定义的clone方法;
+	3.反射:运用反射手段，调用Java.lang.Class或者java.lang.reflect.Constructor类的newInstance()实例方法,newInstance()会调用构造方法;
+	4.序列化:序列化和反序列化一个对象，jvm会给我们创建一个单独的对象。在反序列化时，jvm创建对象并不会调用任何构造函数,为了反序列化一个对象，我们需要让我们的类实现Serializable接口
+
+5. jsp的工作流程，以及jsp编译后的文件在哪儿去找。
+	
+	1.jsp的执行流程
+
+
+	（1）浏览器发送请求，访问jsp页面
+
+
+	（2）服务器接收请求，jspServlet查找对应的jsp文件
+	
+
+（3）服务器将对应的jsp文件翻译成.java文件
+
+	
+（4）JVM将java文件编译成.class文件
+
+	
+（5）服务器运行.class文件，生成动态内容，并发送给服务器
+
+
+	（6）服务器将信息组成响应信息，发送给浏览器
+
+
+	（7）浏览器进行解析
+	2.编译后的.java和.class文件存在tomcat的安装目录下的work文件夹中

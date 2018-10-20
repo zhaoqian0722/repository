@@ -1,0 +1,55 @@
+1.有状态会话bean中线程不安全性有哪些解决办法,例举两个
+	答:1.需要的时候创建新实例:说明：在需要用到bean的地方新建一个实例，不管什么时候，将有线程安全问题的对象由共享变为局部私有都能避免多线程问题，不过也加重了创建对象的负担。在一般情况下，这样其实对性能影响比不是很明显的。
+	2.使用同步synchronized(){}:说明：当线程较多时，当一个线程调用该方法时，其他想要调用此方法的线程就要block，多线程并发量大的时候会对性能有一定的影响。
+	3.使用ThreadLocal:说明：使用ThreadLocal, 也是将共享变量变为独享，线程独享肯定能比方法独享在并发环境中能减少不少创建对象的开销。如果对性能要求比较高的情况下，一般推荐使用这种方法。
+	ThreadLocal是解决线程安全问题一个很好的思路，它通过为每个线程提供一个独立的变量副本解决了变量并发访问的冲突问题。在很多情况下，ThreadLocal比直接使用synchronized同步机制解决线程安全问题更简单，更方便，且结果程序拥有更高的并发性。
+
+2.事务的特性?
+	答:原子性:事务包含的所有操作要么全部成功，要么全部失败回滚
+	一致性:事务必须使数据库从一个一致性状态变换到另一个一致性状态，也就是说一个事务执行之前和执行之后都必须处于一致性状态
+	隔离性:当多个用户并发访问数据库时，比如操作同一张表时，数据库为每一个用户开启的事务，不能被其他事务的操作所干扰，多个并发事务之间要相互隔离
+	持久性:指一个事务一旦被提交了，那么对数据库中的数据的改变就是永久性的，即便是在数据库系统遇到故障的情况下也不会丢失提交事务的操作
+
+3.<script>
+  	if(!("a" in window)){
+            var a = 1;
+        }
+        alert(a);
+    </script>a的输出是?
+	答:undefined(未定义),因为a的作用域在if范围内,alert()作用于if外,故在if作用域中声明的a变量无法作用于方法外
+	另外:"a" in window返回值为true:变量提升，也可以看做是预编译而已，javascript引擎解析js会首先扫描var出来的变量，全局变量都是window的属性，用‘变量名称’ in window可以查看是否声明了变量
+
+4.A={1,2,3,4} B={4,5,6} C={1,2,3}以上ab数组都视为两个表,表中只有一个字段ID,用SQL语句找出A中有的B中没有的ID值(C为结果集)
+	答:select ID from A where not exits(select ID from B where ID = A.ID);
+	select ID from A where ID not in(select ID from B);(查询的字段为非空的时候才能用not in)
+	说明:IN 与 EXISTS 的性能区别主要来自，IN 会编列子查询的每行记录，然后再返回，而EXISTS 则只要遇到第一个满足条件的记录就马上返回。
+
+NOT IN 与 NOT EXISTS 并不能完全等价，只有当子查询中，select 关键字后的字段有not null约束或者有这种暗示时才用NOT IN
+
+5.编写一个排列方法,例如输入参数1,2,3,输出参数为123,132,213,231,312,321三个数的所有排列:
+	答:public static void main(String[] args) {
+	        int[] arr = { 1, 2, 3 };
+	        fullSort(arr, 0, arr.length - 1);
+	    }
+
+	    public static void fullSort(int[] arr, int start, int end) {
+	        // 递归终止条件
+	        if (start == end) {
+	            for (int i : arr) {
+	                System.out.print(i);
+	            }
+	            System.out.println();
+	            return;
+	        }
+	        for (int i = start; i <= end; i++) {
+	            swap(arr, i, start);
+	            fullSort(arr, start + 1, end);
+	            swap(arr, i, start);
+	        }
+	    }
+	//交换数组中两个元素的位置
+	    private static void swap(int[] arr, int i, int j) {
+	        int tmp = arr[i];
+	        arr[i] = arr[j];
+	        arr[j] = tmp;
+	    }

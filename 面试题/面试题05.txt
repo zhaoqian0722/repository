@@ -1,0 +1,58 @@
+
+1.spring MVC的流程是什么？
+	第一步：发起请求到前端控制器(DispatcherServlet)
+	第二步：前端控制器请求HandlerMapping查找 Handler （可以根据xml配置、注解进行查找）
+	第三步：处理器映射器HandlerMapping向前端控制器返回Handler，HandlerMapping会把请求映射为HandlerExecutionChain对象（包含一个Handler处理器（页面控制器）对象，多个HandlerInterceptor拦截器对象），通过这种策略模式，很容易添加新的映射策略
+	第四步：前端控制器调用处理器适配器去执行Handler
+	第五步：处理器适配器HandlerAdapter将会根据适配的结果去执行Handler
+	第六步：Handler执行完成给适配器返回ModelAndView
+	第七步：处理器适配器向前端控制器返回ModelAndView （ModelAndView是springmvc框架的一个底层对象，包括 Model和view）
+	第八步：前端控制器请求视图解析器去进行视图解析 （根据逻辑视图名解析成真正的视图(jsp)），通过这种策略很容易更换其他视图技术，只需要更改视图解析器即可
+	第九步：视图解析器向前端控制器返回View
+	第十步：前端控制器进行视图渲染 （视图渲染将模型数据(在ModelAndView对象中)填充request域）
+	第十一步：前端控制器向用户响应结果
+
+2.多线程做过没有？sleep和wait的区别？callable是怎么实现的？
+	答:1.对于sleep()方法，我们首先要知道该方法是属于Thread类中的。而wait()方法，则是属于Object类中的。
+	sleep()方法导致了程序暂停执行指定的时间，让出cpu该其他线程，但是他的监控状态依然保持者，当指定的时间到了又会自动恢复运行状态。
+	在调用sleep()方法的过程中，线程不会释放对象锁。
+	而当调用wait()方法的时候，线程会放弃对象锁，进入等待此对象的等待锁定池，只有针对此对象调用notify()方法后本线程才进入对象锁定池准备
+	获取对象锁进入运行状态。
+	
+	2.Callable和Runnbale一样代表着任务，区别在于Callable有返回值并且可以抛出异常;Callable是一种可以返回结果的任务，这是它与Runnable的区别，但是通过适配器模式可以使Runnable与Callable类似。Future代表了一个异步的计算，可以从中得到计算结果、查看计算状态，其实现FutureTask可以被提交给Executor执行，多个线程可以从中得到计算结果。Callable和Future是配合使用的，当从Future中get结果时，如果结果还没被计算出来，那么线程将会被挂起，FutureTak内部使用一个单链表维持等待的线程；当计算结果出来后，将会对等待线程解除挂起，等待线程就都可以得到计算结果了
+	
+	3.如何实现异步
+在不阻塞当前线程的情况下计算，那么必然需要另外的线程去执行具体的业务逻辑，上面代码中可以看到，是把Callable放入了线程池中，等待执行，并且立刻返回futrue。可以猜想下，需要从Future中得到Callable的结果，那么Future的引用必然会被两个线程共享，一个线程执行完成后改变Future的状态位并唤醒挂起在get上的线程
+
+
+3.持久层用过什么框架？mybatis和hibernate的区别？
+	答:Mybatis和Hibernate
+	区别:Hibernate对数据库结构提供了较为完整的封装，Hibernate的O/R Mapping实现了POJO 和数据库表之间的映射，以及SQL 的自动生成和执行。程序员往往只需定义好了POJO 到数据库表的映射关系，即可通过Hibernate 提供的方法完成持久层操作。程序员甚至不需要对SQL 的熟练掌握， Hibernate/OJB 会根据制定的存储逻辑，自动生成对应的SQL 并调用JDBC 接口加以执行。
+	Mybatis 的着力点，则在于POJO 与SQL之间的映射关系。然后通过映射配置文件，将SQL所需的参数，以及返回的结果字段映射到指定POJO。 相对Hibernate“O/R”而言，iBATIS 是一种“Sql Mapping”的ORM实现
+	1. hibernate是全自动，而mybatis是半自动
+
+hibernate完全可以通过对象关系模型实现对数据库的操作，拥有完整的JavaBean对象与数据库的映射结构来自动生成sql。而mybatis仅有基本的字段映射，对象数据以及对象实际关系仍然需要通过手写sql来实现和管理。
+
+
+	2. hibernate数据库移植性远大于mybatis
+
+hibernate通过它强大的映射结构和hql语言，大大降低了对象与数据库(oracle、mysql等)的耦合性，而mybatis由于需要手写sql，因此与数据库的耦合性直接取决于程序员写sql的方法，如果sql不具通用性而用了很多某数据库特性的sql语句的话，移植性也会随之降低很多，成本很高。
+
+
+	3. hibernate拥有完整的日志系统，mybatis则欠缺一些
+
+hibernate日志系统非常健全，涉及广泛，包括：sql记录、关系异常、优化警告、缓存提示、脏数据警告等;而mybatis则除了基本记录功能外，功能薄弱很多。
+	
+
+4. mybatis相比hibernate需要关心很多细节
+
+hibernate配置要比mybatis复杂的多，学习成本也比mybatis高。但也正因为mybatis使用简单，才导致它要比hibernate关心很多技术细节。mybatis由于不用考虑很多细节，开发模式上与传统jdbc区别很小，因此很容易上手并开发项目，但忽略细节会导致项目前期bug较多，因而开发出相对稳定的软件很慢，而开发出软件却很快。hibernate则正好与之相反。但是如果使用hibernate很熟练的话，实际上开发效率丝毫不差于甚至超越mybatis。
+
+
+	5. sql直接优化上，mybatis要比hibernate方便很多
+
+由于mybatis的sql都是写在xml里，因此优化sql比hibernate方便很多。而hibernate的sql很多都是自动生成的，无法直接维护sql;虽有hql，但功能还是不及sql强大，见到报表等变态需求时，hql也歇菜，也就是说hql是有局限的;hibernate虽然也支持原生sql，但开发模式上却与orm不同，需要转换思维，因此使用上不是非常方便。总之写sql的灵活度上hibernate不及mybatis。
+
+
+4.公司是做医院项目的，部分老项目是swing做的，对swing熟悉吗？
+5.看我项目用过layUI，问layUI好处和缺点在哪里？跟easyUI比呢？
