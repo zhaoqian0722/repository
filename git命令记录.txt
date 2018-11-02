@@ -1,45 +1,44 @@
-git命令记录:
-git config --global user.name "zhaoqian" = 设置用户名
-git config --global user.email "852113606@qq.com" = 设置用户邮箱
+git鍛戒护璁板綍:
+git config --global user.name "zhaoqian" = 璁剧疆鐢ㄦ埛鍚�git config --global user.email "852113606@qq.com" = 璁剧疆鐢ㄦ埛閭
 
-mkdir repository = 在当前文件夹下新建文件夹repository
-cd /d/repository = 移动到盘下的repository文件夹
-pwd 显示当前路径
+mkdir repository = 鍦ㄥ綋鍓嶆枃浠跺す涓嬫柊寤烘枃浠跺すrepository
+cd /d/repository = 绉诲姩鍒扮洏涓嬬殑repository鏂囦欢澶�pwd 鏄剧ず褰撳墠璺緞
 
-git init Initialized empty Git repository in D:/repository/.git/ = 将当前repository文件夹设置为版本控制库
+git init Initialized empty Git repository in D:/repository/.git/ = 灏嗗綋鍓峳epository鏂囦欢澶硅缃负鐗堟湰鎺у埗搴�
+git add readme.txt = 鍚戜粨搴撲腑鍑嗗娣诲姞readme.txt鏂囦欢
+git commit -m "鐗堟湰鎻愮ず淇℃伅" = 纭鎻愪氦褰撳墠鏇存柊
+git diff readme.txt = 鏌ョ湅涓嶅悓鐗堟湰鐨勫樊寮�
+git status = 鑾峰彇浠撳簱鐘舵�
+git log = 鑾峰彇浠撳簱鏃ュ織(璇︾粏)
+git log --pretty=oneline = 鑾峰彇浠撳簱鏃ュ織(绠�暐)
 
-git add readme.txt = 向仓库中准备添加readme.txt文件
-git commit -m "版本提示信息" = 确认提交当前更新
-git diff readme.txt = 查看不同版本的差异
+git reset --hard HEAD^ = 鍥炴粴鍒颁笂涓増鏈�HEAD褰撳墠鐗堟湰,^涓婁釜鐗堟湰,^^涓婁笂涓増鏈�浠ユ绫绘帹,鍙互鐢ㄦ暟瀛椾唬鏇縃EAD^(HEAD~100))
 
-git status = 获取仓库状态
-git log = 获取仓库日志(详细)
-git log --pretty=oneline = 获取仓库日志(简略)
+cat readme.txt = 鏌ョ湅read.txt鏂囦欢
+git reset --hard 9367ea10c = 鍥炴粴鍒�367ea10c(commit id)鐗堟湰,鍙互鍙啓鍓嶅嚑浣�
+git reflog = 鏌ョ湅鍛戒护鏃ュ織(鍙互鏌ュ埌commit id)
 
-git reset --hard HEAD^ = 回滚到上个版本(HEAD当前版本,^上个版本,^^上上个版本,以此类推,可以用数字代替HEAD^(HEAD~100))
+git diff HEAD -- readme.txt = 鏌ョ湅宸ヤ綔鍖哄拰鐗堟湰搴撻噷闈㈡渶鏂扮増鏈殑鍖哄埆
 
-cat readme.txt = 查看read.txt文件
-git reset --hard 9367ea10c = 回滚到9367ea10c(commit id)版本,可以只写前几位
+git checkout -- readme.txt = 灏唕eadme.txt杩欎釜鏂囦欢鍥炲埌鏈�繎涓�git commit鎴杇it add鏃剁殑鐘舵�
+git reset HEAD readme.txt = 鎾ら攢(unstage)鏆傚瓨鍖虹殑淇敼鎾ら攢
+rm 鏂囦欢鍚�= 鍒犻櫎璇ユ枃浠�鍙互鐢╣it checkout -- 鏂囦欢鍚嶆仮澶�
+git rm test.txt = 褰诲簳浠庣増鏈簱涓垹闄ゆ枃浠�鏃犳硶鐢╣it checkout -- 鏂囦欢鍚嶆仮澶�
 
-git reflog = 查看命令日志(可以查到commit id)
+git remote add origin git@github.com:zhaoqian0722(github璐︽埛鍚�/repository(github浠撳簱鍚�.git = 灏嗘湰鍦癵it浠撳簱涓庤繙绋嬩粨搴撳叧鑱�git push -u origin master = 灏嗘湰鍦板簱鐨勬墍鏈夊唴瀹�鎺ㄩ�鍒拌繙绋嬪簱涓�origin杩滅▼搴撶殑榛樿鍚�
+git push origin master = 灏嗘湰鍦癿aster鍒嗘敮鐨勬渶鏂颁慨鏀规帹閫佽嚦GitHub
 
-git diff HEAD -- readme.txt = 查看工作区和版本库里面最新版本的区别
+git clone git@github.com:zhaoqian0722(github璐︽埛鍚�/gitSkills(github浠撳簱鍚�.git = 鐢ㄥ懡浠it clone灏嗚繙绋嬪簱鍏嬮殕鍒颁竴涓湰鍦板簱
+git branch dev = 鍒涘缓涓�釜鍒嗘敮dev
+git checkout dev = 鍒囨崲鍒板垎鏀痙ev
+git checkout -b dev = 鍒涘缓骞跺垏鎹㈠埌鍒嗘敮dev(绛変簬涓婇潰涓ゆ潯鎸囦护)
+git branch = 鏌ョ湅鍒嗘敮
+git merge dev = 灏嗘寚瀹氬垎鏀悎骞跺埌褰撳墠鍒嗘敮
+git branch -d dev = 鍒犻櫎鍒嗘敮dev
+git log --graph --pretty=oneline --abbrev-commit = 璇ュ懡浠ゅ彲浠ョ湅鍒颁袱涓垎鏀殑鍚堝苟鎯呭喌
 
-git checkout -- readme.txt = 将readme.txt这个文件回到最近一次git commit或git add时的状态
-git reset HEAD readme.txt = 撤销(unstage)暂存区的修改撤销
-rm 文件名 = 删除该文件(可以用git checkout -- 文件名恢复)
-git rm test.txt = 彻底从版本库中删除文件(无法用git checkout -- 文件名恢复)
-
-git remote add origin git@github.com:zhaoqian0722(github账户名)/repository(github仓库名).git = 将本地git仓库与远程仓库关联
-git push -u origin master = 将本地库的所有内容 推送到远程库上(origin远程库的默认名)
-git push origin master = 将本地master分支的最新修改推送至GitHub
-
-git clone git@github.com:zhaoqian0722(github账户名)/gitSkills(github仓库名).git = 用命令git clone将远程库克隆到一个本地库
-git branch dev = 创建一个分支dev
-git checkout dev = 切换到分支dev
-git checkout -b dev = 创建并切换到分支dev(等于上面两条指令)
-git branch = 查看分支
-git merge dev = 将指定分支合并到当前分支
-git branch -d dev = 删除分支dev
-git log --graph --pretty=oneline --abbrev-commit = 该命令可以看到两个分支的合并情况
-
+常见git链接失败错误：https容易失败，选择git地址，用git协议比较快
+ssh版本问题：在eclipse.ini添加一句：-Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2
+在eclipse/myeclipse > menu 
+window > preferences > general > security > 
+content > click “delete” > ok删除错我的账号密码信息
